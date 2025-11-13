@@ -49,12 +49,12 @@ export default function RegisterScreen({navigation}) {
         onChangeText={setPassword}
         secureTextEntry
       />
-      {error ? <Text style={{color: 'red'}}>{error}</Text> : null}
+      {error ? <Text style={{color: 'red'}}>{error} </Text> : null}
       <TouchableOpacity style={styles.btn} onPress={handleRegister}>
         <Text style={styles.btnText}>Register</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => navigation.navigate('Login')}>
-        <Text style={{marginTop: 12}}>Already have an account? Login</Text>
+        <Text style={{marginTop: 12}}>Already have an account? Login </Text>
       </TouchableOpacity>
     </View>
   );

@@ -41,7 +41,7 @@ export default function LoginScreen({navigation}) {
         value={password}
         onChangeText={setPassword}
       />
-      {error ? <Text style={{color: 'red'}}>{error}</Text> : null}
+      {error ? <Text style={{color: 'red'}}>{error} </Text> : null}
       <TouchableOpacity style={styles.btn} onPress={handleLogin}>
         <Text style={styles.btnText}>Login</Text>
       </TouchableOpacity>

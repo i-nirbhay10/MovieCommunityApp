@@ -33,7 +33,7 @@ export const loginUser = createAsyncThunk(
   },
 );
 
-export const logout = createAsyncThunk('auth/logout', async () => {
+export const logoutUser = createAsyncThunk('auth/logoutUser ', async () => {
   await save(CURRENT_KEY, null);
   return null;
 });
@@ -61,7 +61,7 @@ const authSlice = createSlice({
       .addCase(loginUser.rejected, (s, a) => {
         s.error = a.error.message;
       })
-      .addCase(logout.fulfilled, s => {
+      .addCase(logoutUser.fulfilled, s => {
         s.user = null;
       });
   },
