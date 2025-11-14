@@ -1,5 +1,6 @@
 import axios from 'axios';
-const TMDB_KEY = '9f9d63455c1d4df'; // replace with env
+import {TMDB_KEY} from '@env';
+// const TMDB_KEY = '9f9d63455c1d4f9eeebdf5932483d2df'; // replace with env
 const BASE = 'https://api.themoviedb.org/3';
 
 const api = axios.create({

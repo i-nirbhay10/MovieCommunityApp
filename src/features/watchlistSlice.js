@@ -9,7 +9,8 @@ export const loadWatchlist = createAsyncThunk('watchlist/load', async () => {
 
 export const persistWatchlist = createAsyncThunk(
   'watchlist/save',
-  async list => {
+  async (_, {getState}) => {
+    const list = getState().watchlist.list; // safely access current list
     await save(KEY, list);
     return list;
   },
