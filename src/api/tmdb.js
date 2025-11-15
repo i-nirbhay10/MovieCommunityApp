@@ -1,6 +1,6 @@
 import axios from 'axios';
 import {TMDB_KEY} from '@env';
-// const TMDB_KEY = '9f9d63455c1d4f9eeebdf5932483d2df'; // replace with env
+// const TMDB_KEY = '9f9d932483d2df'; // replace with env
 const BASE = 'https://api.themoviedb.org/3';
 
 const api = axios.create({
@@ -20,7 +20,6 @@ export const fetchMovieDetails = async id => {
   return res.data;
 };
 
-// ⭐ Missing Function → Now Fixed
 // Fetch all movie genres
 export const fetchGenres = async () => {
   const res = await api.get('/genre/movie/list');
