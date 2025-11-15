@@ -3,6 +3,12 @@
 A modern, animated **Movie Community Application** built with **React Native**, **Redux Toolkit**, **Reanimated**, and **TMDB API**.  
 Users can explore trending movies, view detailed information, manage a watchlist, write reviews, and track their movie preferences.
 
+### Demo Video
+
+https://github.com/user-attachments/assets/a971a4b4-dbf5-4bed-a329-915bf68c4be4
+
+
+
 ## 🚀 Features
 
 ### 🔐 Authentication
