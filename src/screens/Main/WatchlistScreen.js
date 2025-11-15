@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {
   View,
   Text,
@@ -13,34 +13,41 @@ import {
   removeMovie,
   persistWatchlist,
 } from '../../features/watchlistSlice';
-import MovieCard from '../../components/MovieCard';
 import {store} from '../../app/store';
+
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 import Animated, {FadeInDown} from 'react-native-reanimated';
+import MovieCardList from '../../components/MovieCardList';
 
 export default function WatchlistScreen({navigation}) {
   const dispatch = useDispatch();
-  const list = useSelector(s => s.watchlist.list);
+  const list = useSelector(state => state.watchlist.list);
 
   useEffect(() => {
     dispatch(loadWatchlist());
-  }, []);
+  }, [dispatch]);
 
   const handleRemove = id => {
     Alert.alert('Remove', 'Remove from watchlist?', [
-      {text: 'Cancel'},
+      {text: 'Cancel', style: 'cancel'},
       {
         text: 'Remove',
         onPress: async () => {
-          // Remove movie from Redux state
           dispatch(removeMovie(id));
-
-          // Get updated state from Redux and persist it
-          const updatedList = store.getState().watchlist.list; // if using store directly
+          const updatedList = store.getState().watchlist.list;
           await dispatch(persistWatchlist(updatedList));
         },
       },
     ]);
   };
+
+  const renderRightActions = onPress => (
+    <View style={styles.deleteContainer}>
+      <TouchableOpacity onPress={onPress} style={styles.deleteButton}>
+        <Text style={styles.deleteText}>Delete</Text>
+      </TouchableOpacity>
+    </View>
+  );
 
   if (!list.length)
     return (
@@ -60,21 +67,25 @@ export default function WatchlistScreen({navigation}) {
       {/* Movie Grid */}
       <FlatList
         data={list}
-        keyExtractor={i => String(i.id)}
-        numColumns={2}
+        keyExtractor={item => String(item.id)}
+        // numColumns={2}
         renderItem={({item, index}) => (
-          <TouchableOpacity>
-            <MovieCard
-              movie={item}
-              index={index}
-              onLongPress={() => handleRemove(item.id)}
-              onPress={() =>
-                navigation.navigate('MovieDetail', {movieId: item.id})
-              }
-            />
-          </TouchableOpacity>
+          <Swipeable
+            overshootRight={false}
+            renderRightActions={() =>
+              renderRightActions(() => handleRemove(item.id))
+            }>
+            <TouchableOpacity>
+              <MovieCardList
+                movie={item}
+                index={index}
+                onPress={() =>
+                  navigation.navigate('MovieDetail', {movieId: item.id})
+                }
+              />
+            </TouchableOpacity>
+          </Swipeable>
         )}
-        contentContainerStyle={styles.listContent}
       />
     </View>
   );
@@ -85,11 +96,12 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F9FAFB',
   },
+
+  /* Empty State */
   emptyContainer: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F9FAFB',
     padding: 16,
   },
   emptyText: {
@@ -97,6 +109,8 @@ const styles = StyleSheet.create({
     color: '#555',
     fontWeight: '500',
   },
+
+  /* Header */
   header: {
     paddingVertical: 10,
     paddingHorizontal: 16,
@@ -114,9 +128,25 @@ const styles = StyleSheet.create({
     backgroundColor: '#D4AF37',
     borderRadius: 3,
   },
-  listContent: {
-    paddingHorizontal: 12,
-    paddingTop: 8,
-    alignItems: 'center', // center the 2-column grid
+
+  /* Swipe Delete */
+  deleteContainer: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 8,
+  },
+  deleteButton: {
+    backgroundColor: 'red',
+    width: 80,
+    height: '92%',
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 6,
+  },
+  deleteText: {
+    color: 'white',
+    fontWeight: '700',
+    fontSize: 16,
   },
 });

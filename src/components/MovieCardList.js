@@ -43,7 +43,7 @@ export default function MovieCardList({movie, index = 0, onPress}) {
         <Image
           source={{uri: posterUrl(movie.poster_path)}}
           style={styles.poster}
-          resizeMode="cover"
+          resizeMode="stretch"
         />
 
         <View style={styles.infoBox}>
@@ -66,15 +66,16 @@ export default function MovieCardList({movie, index = 0, onPress}) {
 
 const styles = StyleSheet.create({
   cardContainer: {
-    width: CARD_W,
-    margin: CARD_MARGIN / 1.2,
+    width: width,
+    padding: CARD_MARGIN,
   },
 
   card: {
+    width: '100%',
+    flexDirection: 'row',
     borderRadius: 16,
     backgroundColor: '#FFF',
     overflow: 'hidden',
-
     // iOS shadow
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -86,12 +87,14 @@ const styles = StyleSheet.create({
   },
 
   poster: {
-    width: '100%',
-    height: CARD_W * 1.45,
+    width: '30%',
+    height: 100,
   },
 
   infoBox: {
     padding: 12,
+    flex: 1,
+    justifyContent: 'center', // <-- fixes vertical alignment
   },
 
   title: {
